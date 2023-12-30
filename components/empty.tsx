@@ -13,7 +13,7 @@ export const Empty = ({
                 <Image
                 alt="Empty"
                 fill 
-                src = "/empty.jpg"
+                src = "/empty.png"
                 />
 
             </div>
