@@ -76,7 +76,7 @@ const Sidebar = () => {
 
                     </div>
                     <h1 className={cn("text-2xl font-bold", montserrat.className)}> 
-                        CatgarAI
+                        Luffy
                     </h1>
 
 
