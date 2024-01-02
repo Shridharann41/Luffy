@@ -43,8 +43,6 @@ const CodePage = () => {
       const userMessage: ChatCompletionRequestMessage = {
         role: "user",
         content: values.prompt,
-
-
       };
       const newMessages = [...messages, userMessage];
 
