@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
+import  OpenAI from "openai";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 
 const openai = new OpenAI({
@@ -18,7 +18,7 @@ export async function POST(
   try {
     const { userId } = auth();
     const body = await req.json();
-    const { messages  } = body;
+    const { prompt, amount = 1, resolution = "512x512" } = body;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -28,20 +28,27 @@ export async function POST(
       return new NextResponse("OpenAI API Key not configured.", { status: 500 });
     }
 
-    if (!messages) {
-      return new NextResponse("Messages are required", { status: 400 });
+    if (!prompt) {
+      return new NextResponse("Prompts is required", { status: 400 });
     }
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      max_tokens: 75,
-      temperature: 0.5,
-      messages: [instructionMessage, ...messages]
+    if (!amount) {
+      return new NextResponse("amount is required", { status: 400 });
+    }
+
+    if (!resolution) {
+      return new NextResponse("Resolution is required", { status: 400 });
+    }
+
+    const response = await openai.images.generate({
+      prompt,
+      n: parseInt(amount, 10),
+      size: resolution,    
     });
     
-    return NextResponse.json(response.choices[0].message);
+    return NextResponse.json(response.data);
   } catch (error) {
-    console.log('[CONVERSATION_ERROR]', error);
+    console.log('[IMAGE_ERROR]', error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 };
