@@ -1,22 +1,21 @@
-import { Menu } from "lucide-react";
-import {Button} from "@/components/ui/button"
 import { UserButton } from "@clerk/nextjs";
-import MobileSidebar from "@/components/mobile-sidebar"
 
-const NavBar = () => {
-    return(
-      <div className="flex items-center p-4"> 
-        <Button variant = "ghost" size="icon" className = "md:hidden">
-            <MobileSidebar/>
-        </Button>
+import { MobileSidebar } from "@/components/mobile-sidebar";
+import { getApiLimitCount } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 
-        <div className = "flex w-full justify-end">
-            <UserButton afterSignOutUrl="/" />
+const Navbar = async () => {
+  const apiLimitCount = await getApiLimitCount();
+  const isPro = await checkSubscription();
 
-        </div>
-        
-        </div>
-    );
+  return ( 
+    <div className="flex items-center p-4">
+      <MobileSidebar isPro={isPro} apiLimitCount={apiLimitCount} />
+      <div className="flex w-full justify-end">
+        <UserButton afterSignOutUrl="/" />
+      </div>
+    </div>
+   );
 }
-
-export default NavBar;
+ 
+export default Navbar;

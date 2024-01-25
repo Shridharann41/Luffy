@@ -9,10 +9,7 @@ import { LayoutDashboard, MessageSquare, ImageIcon, VideoIcon, Music2Icon, CodeI
 import { FreeCounter } from "./free-counter";
 
 
-const montserrat = Montserrat({
-     weight: "600", 
-     subsets: ["latin"]
-     } );
+const poppins = Montserrat ({ weight: '600', subsets: ['latin'] });
 
 const routes = [
     {
