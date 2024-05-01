@@ -6,11 +6,11 @@ import { Heading } from "@/components/heading";
 import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { ChatCompletionRequestMessage} from "openai";
+import OpenAI from "openai";
 import { Empty } from "@/components/empty";
 
 
-import {formSchema} from "./constants"
+import {formSchema} from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -29,7 +29,7 @@ import toast from "react-hot-toast";
 const ConversationPage = () => {
   const router = useRouter();
   const proModal = useProModal();
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+  const [messages, setMessages] = useState<OpenAI.Chat.CreateChatCompletionRequestMessage[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,11 +41,11 @@ const ConversationPage = () => {
 
   const onSubmit = async  (values: z.infer<typeof formSchema>) => {
     try{
-      const userMessage: ChatCompletionRequestMessage = {
+      const userMessage: OpenAI.Chat.CreateChatCompletionRequestMessage = {
         role: "user",
         content: values.prompt,
-
-
+ 
+ 
       };
       const newMessages = [...messages, userMessage];
 
