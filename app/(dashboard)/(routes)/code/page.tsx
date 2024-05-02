@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import axios from "axios";
@@ -39,9 +40,11 @@ const CodePage = () => {
 
   const onSubmit = async  (values: z.infer<typeof formSchema>) => {
     try{
-      const userMessage: ChatCompletionRequestMessage = {
+      const userMessage: OpenAI.Chat.CreateChatCompletionRequestMessage = {
         role: "user",
         content: values.prompt,
+ 
+ 
       };
       const newMessages = [...messages, userMessage];
 
@@ -122,7 +125,7 @@ const CodePage = () => {
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
               <div
-                key={message.content}
+                key={String(message.content)}
                 className={cn(
                   "p-8 w-full flex items-start gap-x-8 rounded-lg",
                   message.role === "user"
@@ -145,7 +148,7 @@ const CodePage = () => {
                   }}
                   className="text-sm overflow-hidden leading-7"
                 >
-                  {message.content || ""}
+                  (message.content || "")
                 </ReactMarkdown>
               </div>
             ))}
